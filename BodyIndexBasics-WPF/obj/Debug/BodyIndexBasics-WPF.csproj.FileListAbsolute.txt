@@ -1,0 +1,15 @@
+C:\Users\Anthony\Documents\University of Rochester\Senior\CSC 212 HCI\Project\BodyIndexBasics-WPF\bin\AnyCPU\Debug\BodyIndexBasics-WPF.exe.config
+C:\Users\Anthony\Documents\University of Rochester\Senior\CSC 212 HCI\Project\BodyIndexBasics-WPF\bin\AnyCPU\Debug\BodyIndexBasics-WPF.exe
+C:\Users\Anthony\Documents\University of Rochester\Senior\CSC 212 HCI\Project\BodyIndexBasics-WPF\bin\AnyCPU\Debug\BodyIndexBasics-WPF.pdb
+C:\Users\Anthony\Documents\University of Rochester\Senior\CSC 212 HCI\Project\BodyIndexBasics-WPF\bin\AnyCPU\Debug\Microsoft.Kinect.dll
+C:\Users\Anthony\Documents\University of Rochester\Senior\CSC 212 HCI\Project\BodyIndexBasics-WPF\bin\AnyCPU\Debug\Microsoft.Kinect.xml
+C:\Users\Anthony\Documents\University of Rochester\Senior\CSC 212 HCI\Project\BodyIndexBasics-WPF\obj\Debug\BodyIndexBasics-WPF.csprojResolveAssemblyReference.cache
+C:\Users\Anthony\Documents\University of Rochester\Senior\CSC 212 HCI\Project\BodyIndexBasics-WPF\obj\Debug\MainWindow.baml
+C:\Users\Anthony\Documents\University of Rochester\Senior\CSC 212 HCI\Project\BodyIndexBasics-WPF\obj\Debug\MainWindow.g.cs
+C:\Users\Anthony\Documents\University of Rochester\Senior\CSC 212 HCI\Project\BodyIndexBasics-WPF\obj\Debug\App.g.cs
+C:\Users\Anthony\Documents\University of Rochester\Senior\CSC 212 HCI\Project\BodyIndexBasics-WPF\obj\Debug\BodyIndexBasics-WPF_MarkupCompile.cache
+C:\Users\Anthony\Documents\University of Rochester\Senior\CSC 212 HCI\Project\BodyIndexBasics-WPF\obj\Debug\BodyIndexBasics-WPF.g.resources
+C:\Users\Anthony\Documents\University of Rochester\Senior\CSC 212 HCI\Project\BodyIndexBasics-WPF\obj\Debug\Microsoft.Samples.Kinect.BodyIndexBasics.Properties.Resources.resources
+C:\Users\Anthony\Documents\University of Rochester\Senior\CSC 212 HCI\Project\BodyIndexBasics-WPF\obj\Debug\BodyIndexBasics-WPF.csproj.GenerateResource.Cache
+C:\Users\Anthony\Documents\University of Rochester\Senior\CSC 212 HCI\Project\BodyIndexBasics-WPF\obj\Debug\BodyIndexBasics-WPF.exe
+C:\Users\Anthony\Documents\University of Rochester\Senior\CSC 212 HCI\Project\BodyIndexBasics-WPF\obj\Debug\BodyIndexBasics-WPF.pdb
