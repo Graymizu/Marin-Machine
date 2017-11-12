@@ -7,6 +7,7 @@
 namespace Microsoft.Samples.Kinect.BodyBasics
 {
     using System;
+    using System.Linq;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
@@ -514,19 +515,24 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                                                             : Properties.Resources.SensorNotAvailableStatusText;
         }
 
-        public double calcAngle(int[] ThreePoints) {
-            foreach (Body body in this.bodies){
+        public double calcAngle (int[] ThreePoints) {
+            foreach (Body body in this.bodies) {
                 if (body.IsTracked) {
                     IReadOnlyDictionary<JointType, Joint> joints = body.Joints;
                     Dictionary<JointType, Point> jointPoints = new Dictionary<JointType, Point>();
                     foreach (JointType jointType in joints.Keys)
                     {
                         CameraSpacePoint position = joints[jointType].Position;
+
+
                     }
                 }
             }
+            return 0;
         }
 
+
+ 
     }
 
 }
