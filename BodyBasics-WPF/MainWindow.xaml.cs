@@ -7,7 +7,6 @@
 namespace Microsoft.Samples.Kinect.BodyBasics
 {
     using System;
-    using System.Linq;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
@@ -235,6 +234,16 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
         }
 
+        public ImageSource Snapshot
+        {
+            get
+            {
+                //maybe have an array of images
+                return this.ImageSource; // need to change this to image from video of person doing move
+            }
+
+        }
+
         /// <summary>
         /// Gets or sets the current status text to display
         /// </summary>
@@ -401,7 +410,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
                 if (drawBrush != null)
                 {
-                    drawingContext.DrawEllipse(drawBrush, null, jointPoints[jointType], JointThickness, JointThickness);
+
+                    CalcAngle(bones[1], bones[2]);
+                    drawingContext.DrawEllipse(drawBrush, null, jointPoints[jointType], GetJointThickness(CalculateAccuracy(45, 90)), GetJointThickness(CalculateAccuracy(45, 90)));
                 }
             }
         }
@@ -515,24 +526,50 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                                                             : Properties.Resources.SensorNotAvailableStatusText;
         }
 
-        public double calcAngle (int[] ThreePoints) {
-            foreach (Body body in this.bodies) {
-                if (body.IsTracked) {
-                    IReadOnlyDictionary<JointType, Joint> joints = body.Joints;
-                    Dictionary<JointType, Point> jointPoints = new Dictionary<JointType, Point>();
-                    foreach (JointType jointType in joints.Keys)
-                    {
-                        CameraSpacePoint position = joints[jointType].Position;
+        public double CalcAngle(Tuple<JointType, JointType> bone1, Tuple<JointType, JointType> bone2)
+        {
+            CameraSpacePoint WristRightP = bodies[0].Joints[JointType.WristRight].Position;
+            CameraSpacePoint ElbowRightP = bodies[0].Joints[JointType.ElbowRight].Position;
+            CameraSpacePoint ShoulderRightP = bodies[0].Joints[JointType.ShoulderRight].Position;
 
-
-                    }
-                }
-            }
-            return 0;
+            Vector ElbowWrist = new Vector(Convert.ToDouble(ElbowRightP.X - WristRightP.X), Convert.ToDouble(ElbowRightP.Y - WristRightP.Y));
+            Vector ElbowShoulder = new Vector(Convert.ToDouble(ElbowRightP.X - ShoulderRightP.X), Convert.ToDouble(ElbowRightP.Y - ShoulderRightP.Y));
+            Console.WriteLine(System.Windows.Vector.AngleBetween(ElbowWrist, ElbowShoulder));
+            return System.Windows.Vector.AngleBetween(ElbowWrist, ElbowShoulder);
         }
 
+        public double CalculateAccuracy(double orignalAngle, double userAngle) // what does this need to take in?
+        {
+            // if less than angle user/orignal
+            // if greater than angle user-2*angleoff then divide user by original
+            /*if (userAngle > orignalAngle)
+            {
+                double diff = userAngle - orignalAngle;
+                userAngle = userAngle - 2 * diff;
+            }
 
- 
+            return userAngle/orignalAngle;*/
+
+            double diff = userAngle - orignalAngle;
+            return 1 / (diff + 1);
+        }
+
+        private double GetJointThickness(double accuracy) //will also need a way to identify the specific joint, then call CalcAccuracy and CalcAngle
+        {
+            double jt = -4 * accuracy + 7;
+            return jt;
+        }
+
+        private void RightArrow_Click(object sender, RoutedEventArgs e)
+        {
+            //change image (and underlay) - no longer doing underlay
+            ////this.imageSource = new DrawingImage(this.drawingGroup) // need to define drawing group for underlay
+        }
+
+        private void LeftArrow_Click(object sender, RoutedEventArgs e)
+        {
+            // change image (and underlay) - no longer doing underlay
+            ////this.imageSource = new DrawingImage(this.drawingGroup) // need to define drawing group for underlay
+        }
     }
-
 }
