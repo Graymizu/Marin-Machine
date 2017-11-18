@@ -127,6 +127,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         /// </summary>
         private string statusText = null;
 
+
+        private Double[] jointAngles = new Double[11];
+
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
         /// </summary>
@@ -411,8 +414,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 if (drawBrush != null)
                 {
 
-                    CalcAngle(bones[1], bones[2]);
-                    drawingContext.DrawEllipse(drawBrush, null, jointPoints[jointType], GetJointThickness(CalculateAccuracy(45, 90)), GetJointThickness(CalculateAccuracy(45, 90)));
+                    CalcAngles();
+                    // need to match jointPoints[jointType] to jointAngles[] somehow
+                    drawingContext.DrawEllipse(drawBrush, null, jointPoints[jointType], GetJointThickness(0), GetJointThickness(0));
                 }
             }
         }
@@ -526,19 +530,109 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                                                             : Properties.Resources.SensorNotAvailableStatusText;
         }
 
-        public double CalcAngle(Tuple<JointType, JointType> bone1, Tuple<JointType, JointType> bone2)
+        public void CalcAngles()
         {
+            //Right Side
             CameraSpacePoint WristRightP = bodies[0].Joints[JointType.WristRight].Position;
             CameraSpacePoint ElbowRightP = bodies[0].Joints[JointType.ElbowRight].Position;
             CameraSpacePoint ShoulderRightP = bodies[0].Joints[JointType.ShoulderRight].Position;
+            CameraSpacePoint HandRightP = bodies[0].Joints[JointType.HandRight].Position;
+            CameraSpacePoint HandTipRightP = bodies[0].Joints[JointType.HandTipRight].Position;
+            CameraSpacePoint HipRightP = bodies[0].Joints[JointType.HipRight].Position;
+            CameraSpacePoint KneeRightP = bodies[0].Joints[JointType.KneeRight].Position;
+            CameraSpacePoint AnkleRightP = bodies[0].Joints[JointType.AnkleRight].Position;
+            CameraSpacePoint FootRightP = bodies[0].Joints[JointType.FootRight].Position;
 
-            Vector ElbowWrist = new Vector(Convert.ToDouble(ElbowRightP.X - WristRightP.X), Convert.ToDouble(ElbowRightP.Y - WristRightP.Y));
-            Vector ElbowShoulder = new Vector(Convert.ToDouble(ElbowRightP.X - ShoulderRightP.X), Convert.ToDouble(ElbowRightP.Y - ShoulderRightP.Y));
-            Console.WriteLine(System.Windows.Vector.AngleBetween(ElbowWrist, ElbowShoulder));
-            return System.Windows.Vector.AngleBetween(ElbowWrist, ElbowShoulder);
+            //Center
+            CameraSpacePoint HeadP = bodies[0].Joints[JointType.Head].Position;
+            CameraSpacePoint NeckP = bodies[0].Joints[JointType.Neck].Position;
+            CameraSpacePoint SpineShoulderP = bodies[0].Joints[JointType.SpineShoulder].Position;
+            CameraSpacePoint SpineMidP = bodies[0].Joints[JointType.SpineMid].Position;
+            CameraSpacePoint SpineBaseP = bodies[0].Joints[JointType.SpineBase].Position;
+
+            //Left Side
+            CameraSpacePoint WristLeftP = bodies[0].Joints[JointType.WristLeft].Position;
+            CameraSpacePoint ElbowLeftP = bodies[0].Joints[JointType.ElbowLeft].Position;
+            CameraSpacePoint ShoulderLeftP = bodies[0].Joints[JointType.ShoulderLeft].Position;
+            CameraSpacePoint HandLeftP = bodies[0].Joints[JointType.HandLeft].Position;
+            CameraSpacePoint HandTipLeftP = bodies[0].Joints[JointType.HandTipLeft].Position;
+            CameraSpacePoint HipLeftP = bodies[0].Joints[JointType.HipLeft].Position;
+            CameraSpacePoint KneeLeftP = bodies[0].Joints[JointType.KneeLeft].Position;
+            CameraSpacePoint AnkleLeftP = bodies[0].Joints[JointType.AnkleLeft].Position;
+            CameraSpacePoint FootLeftP = bodies[0].Joints[JointType.FootLeft].Position;
+
+
+            // elbow r angle: 0
+            Vector rElbowWrist = new Vector(Convert.ToDouble(ElbowRightP.X - WristRightP.X), Convert.ToDouble(ElbowRightP.Y - WristRightP.Y));
+            Vector rElbowShoulder = new Vector(Convert.ToDouble(ElbowRightP.X - ShoulderRightP.X), Convert.ToDouble(ElbowRightP.Y - ShoulderRightP.Y));
+            //Console.WriteLine(System.Windows.Vector.AngleBetween(rElbowWrist, rElbowShoulder));
+            jointAngles[0] = System.Windows.Vector.AngleBetween(rElbowWrist, rElbowShoulder);
+            //return System.Windows.Vector.AngleBetween(rElbowWrist, rElbowShoulder);
+            
+            // elbow l angle: 1
+            Vector lElbowWrist = new Vector(Convert.ToDouble(ElbowLeftP.X - WristLeftP.X), Convert.ToDouble(ElbowLeftP.Y - WristLeftP.Y));
+            Vector lElbowShoulder = new Vector(Convert.ToDouble(ElbowLeftP.X - ShoulderLeftP.X), Convert.ToDouble(ElbowLeftP.Y - ShoulderLeftP.Y));
+            //Console.WriteLine(System.Windows.Vector.AngleBetween(lElbowWrist, lElbowShoulder));
+            jointAngles[1] = System.Windows.Vector.AngleBetween(lElbowWrist, lElbowShoulder);
+
+            // shoulder r angle: 2
+            Vector rShoulderElbow = new Vector(Convert.ToDouble(ShoulderRightP.X - ElbowRightP.X), Convert.ToDouble(ShoulderRightP.Y - ElbowRightP.Y));
+            Vector rShoulderSpineShoulder = new Vector(Convert.ToDouble(ShoulderRightP.X - SpineShoulderP.X), Convert.ToDouble(ShoulderRightP.Y - SpineShoulderP.Y));
+            //Console.WriteLine(System.Windows.Vector.AngleBetween(rShoulderElbow, rShoulderSpineShoulder));
+            jointAngles[2] = System.Windows.Vector.AngleBetween(rShoulderElbow, rShoulderSpineShoulder);
+
+            // shoulder l angle: 3
+            Vector LShoulderElbow = new Vector(Convert.ToDouble(ShoulderLeftP.X - ElbowLeftP.X), Convert.ToDouble(ShoulderLeftP.Y - ElbowLeftP.Y));
+            Vector LShoulderSpineShoulder = new Vector(Convert.ToDouble(ShoulderLeftP.X - SpineShoulderP.X), Convert.ToDouble(ShoulderLeftP.Y - SpineShoulderP.Y));
+            //Console.WriteLine(System.Windows.Vector.AngleBetween(LShoulderElbow, LShoulderSpineShoulder));
+            jointAngles[3] = System.Windows.Vector.AngleBetween(LShoulderElbow, LShoulderSpineShoulder);
+
+            // spine r angle: 4
+            Vector RSpineShoulderShoulder = new Vector(Convert.ToDouble(SpineShoulderP.X - ShoulderRightP.X), Convert.ToDouble(SpineShoulderP.Y - ShoulderRightP.Y));
+            Vector RSpineShoulderSpineMid = new Vector(Convert.ToDouble(SpineShoulderP.X - SpineMidP.X), Convert.ToDouble(SpineShoulderP.Y - SpineMidP.Y));
+            //Console.WriteLine(System.Windows.Vector.AngleBetween(RSpineShoulderShoulder, RSpineShoulderSpineMid));
+            jointAngles[4] = System.Windows.Vector.AngleBetween(RSpineShoulderShoulder, RSpineShoulderSpineMid);
+
+            // spine l angle: 5
+            Vector LSpineShoulderShoulder = new Vector(Convert.ToDouble(SpineShoulderP.X - ShoulderLeftP.X), Convert.ToDouble(SpineShoulderP.Y - ShoulderLeftP.Y));
+            Vector LSpineShoulderSpineMid = new Vector(Convert.ToDouble(SpineShoulderP.X - SpineMidP.X), Convert.ToDouble(SpineShoulderP.Y - SpineMidP.Y));
+            //Console.WriteLine(System.Windows.Vector.AngleBetween(LSpineShoulderShoulder, LSpineShoulderSpineMid));
+            jointAngles[5] = System.Windows.Vector.AngleBetween(LSpineShoulderShoulder, LSpineShoulderSpineMid);
+
+            // hip r angle: 6
+            Vector HipSpineBaseR = new Vector(Convert.ToDouble(HipRightP.X - SpineBaseP.X), Convert.ToDouble(HipRightP.Y - SpineBaseP.Y));
+            Vector HipKneeR = new Vector(Convert.ToDouble(HipRightP.X - KneeRightP.X), Convert.ToDouble(HipRightP.Y - KneeRightP.Y));
+            //Console.WriteLine(System.Windows.Vector.AngleBetween(HipSpineBaseR, HipKneeR));
+            jointAngles[6] = System.Windows.Vector.AngleBetween(HipSpineBaseR, HipKneeR);
+
+            // hip l angle: 7
+            Vector lHipSpineBase = new Vector(Convert.ToDouble(HipLeftP.X - SpineBaseP.X), Convert.ToDouble(HipLeftP.Y - SpineBaseP.Y));
+            Vector lHipKnee = new Vector(Convert.ToDouble(HipLeftP.X - KneeLeftP.X), Convert.ToDouble(HipLeftP.Y - KneeLeftP.Y));
+            //Console.WriteLine(System.Windows.Vector.AngleBetween(lHipSpineBase, lHipKnee));
+            jointAngles[7] = System.Windows.Vector.AngleBetween(lHipSpineBase, lHipKnee);
+
+            // knee r angle: 8
+            Vector KneeHipr = new Vector(Convert.ToDouble(KneeRightP.X - HipRightP.X), Convert.ToDouble(KneeRightP.Y - HipRightP.Y));
+            Vector KneeAnkler = new Vector(Convert.ToDouble(KneeRightP.X - AnkleRightP.X), Convert.ToDouble(KneeRightP.Y - AnkleRightP.Y));
+            //Console.WriteLine(System.Windows.Vector.AngleBetween(KneeHipr, KneeAnkler));
+            jointAngles[8] = System.Windows.Vector.AngleBetween(KneeHipr, KneeAnkler);
+
+            // knee l angle: 9
+            Vector lKneeHip = new Vector(Convert.ToDouble(KneeLeftP.X - HipLeftP.X), Convert.ToDouble(KneeLeftP.Y - HipLeftP.Y));
+            Vector lKneeAnkle = new Vector(Convert.ToDouble(KneeLeftP.X - AnkleLeftP.X), Convert.ToDouble(KneeLeftP.Y - AnkleLeftP.Y));
+            //Console.WriteLine(System.Windows.Vector.AngleBetween(lKneeHip, lKneeAnkle));
+            jointAngles[9] = System.Windows.Vector.AngleBetween(lKneeHip, lKneeAnkle);
+
+            // neck angle: 10
+            Vector NeckHead = new Vector(Convert.ToDouble(NeckP.X - HeadP.X), Convert.ToDouble(NeckP.Y - HeadP.Y));
+            Vector NeckSpineShoulder = new Vector(Convert.ToDouble(NeckP.X - SpineShoulderP.X), Convert.ToDouble(NeckP.Y - SpineShoulderP.Y));
+            //Console.WriteLine(System.Windows.Vector.AngleBetween(NeckHead, NeckSpineShoulder));
+            jointAngles[10] = System.Windows.Vector.AngleBetween(NeckHead, NeckSpineShoulder);
+
+
         }
 
-        public double CalculateAccuracy(double orignalAngle, double userAngle) // what does this need to take in?
+        public double CalculateAccuracy(int i) // what does this need to take in?
         {
             // if less than angle user/orignal
             // if greater than angle user-2*angleoff then divide user by original
@@ -550,12 +644,17 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
             return userAngle/orignalAngle;*/
 
-            double diff = userAngle - orignalAngle;
+            double userAngle = jointAngles[i];
+            double originalAngle = 0;
+
+            double diff = Math.Abs(userAngle - originalAngle);
             return 1 / (diff + 1);
         }
 
-        private double GetJointThickness(double accuracy) //will also need a way to identify the specific joint, then call CalcAccuracy and CalcAngle
+        private double GetJointThickness(int i) //will also need a way to identify the specific joint, then call CalcAccuracy and CalcAngle
         {
+            double accuracy = CalculateAccuracy(i);
+
             double jt = -4 * accuracy + 7;
             return jt;
         }
@@ -564,12 +663,14 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         {
             //change image (and underlay) - no longer doing underlay
             ////this.imageSource = new DrawingImage(this.drawingGroup) // need to define drawing group for underlay
+            Console.WriteLine("right");
         }
 
         private void LeftArrow_Click(object sender, RoutedEventArgs e)
         {
             // change image (and underlay) - no longer doing underlay
             ////this.imageSource = new DrawingImage(this.drawingGroup) // need to define drawing group for underlay
+            Console.WriteLine("left");
         }
     }
 }
