@@ -16,6 +16,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
     using Microsoft.Kinect;
+    using System.Collections;
 
     /// <summary>
     /// Interaction logic for MainWindow
@@ -130,6 +131,18 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         private Double[] jointAngles = new Double[11];
 
+        IDictionary<JointType, int> jointIndexs = new Dictionary<JointType, int>();
+
+        private Double[] originalAngles = new Double[11];
+
+        StreamReader sr = new StreamReader(Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\..\")) + @"\DanceData.txt");
+
+        ArrayList allAngles = new ArrayList();
+
+        private int indexOfAngle = 0;
+
+
+
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
         /// </summary>
@@ -197,6 +210,33 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             this.bodyColors.Add(new Pen(Brushes.Blue, 6));
             this.bodyColors.Add(new Pen(Brushes.Indigo, 6));
             this.bodyColors.Add(new Pen(Brushes.Violet, 6));
+
+
+            //joint indeces
+            jointIndexs.Add(JointType.Neck, 10);
+            jointIndexs.Add(JointType.SpineShoulder, 4);
+            //jointIndexs.Add(JointType.SpineShoulder, 5);
+            jointIndexs.Add(JointType.ShoulderRight, 2);
+            jointIndexs.Add(JointType.ElbowRight, 0);
+            jointIndexs.Add(JointType.ShoulderLeft, 3);
+            jointIndexs.Add(JointType.ElbowLeft, 1);
+            jointIndexs.Add(JointType.HipRight, 6);
+            jointIndexs.Add(JointType.KneeRight, 8);
+            jointIndexs.Add(JointType.HipLeft, 7);
+            jointIndexs.Add(JointType.KneeLeft, 9);
+
+            while (sr.Peek() > 0)
+            {
+                
+                //string angle = (File.ReadAllLines(Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\..\")) + @"\DanceData.txt").CopyTo(originalAngles,0));
+                string angle = sr.ReadLine();
+                allAngles.Add(angle);
+                Console.WriteLine(angle);
+            }
+
+            // get angle data for first move
+            GetNextMove(); 
+
 
             // set IsAvailableChanged event notifier
             this.kinectSensor.IsAvailableChanged += this.Sensor_IsAvailableChanged;
@@ -415,8 +455,19 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 {
 
                     CalcAngles();
+
+
                     // need to match jointPoints[jointType] to jointAngles[] somehow
-                    drawingContext.DrawEllipse(drawBrush, null, jointPoints[jointType], GetJointThickness(0), GetJointThickness(0));
+
+                    if (jointIndexs.ContainsKey(jointType))
+                    {
+                        drawingContext.DrawEllipse(drawBrush, null, jointPoints[jointType], GetJointThickness(jointIndexs[jointType]), GetJointThickness(jointIndexs[jointType]));
+                    }
+                    else
+                    {
+                        drawingContext.DrawEllipse(drawBrush, null, jointPoints[jointType], JointThickness, JointThickness);
+
+                    }
                 }
             }
         }
@@ -645,7 +696,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             return userAngle/orignalAngle;*/
 
             double userAngle = jointAngles[i];
-            double originalAngle = 0;
+            double originalAngle = originalAngles[i];
+            userAngle = userAngle / 180;
+            originalAngle = originalAngle /180;
 
             double diff = Math.Abs(userAngle - originalAngle);
             return 1 / (diff + 1);
@@ -655,8 +708,20 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         {
             double accuracy = CalculateAccuracy(i);
 
-            double jt = -4 * accuracy + 7;
+            double jt = -7 * accuracy + 10;
             return jt;
+        }
+
+        private void GetNextMove()
+        {
+            for (int i = 0; i < 11; i++)
+            {
+                originalAngles[i] = Convert.ToDouble(allAngles[indexOfAngle]);
+                Console.WriteLine(indexOfAngle);
+                Console.WriteLine(originalAngles[i]);
+                indexOfAngle++;
+
+            }
         }
 
         private void RightArrow_Click(object sender, RoutedEventArgs e)
@@ -664,6 +729,16 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             //change image (and underlay) - no longer doing underlay
             ////this.imageSource = new DrawingImage(this.drawingGroup) // need to define drawing group for underlay
             Console.WriteLine("right");
+            Console.WriteLine(allAngles.Count);
+
+            if(indexOfAngle >= allAngles.Count)
+            {
+                indexOfAngle = indexOfAngle - 11;
+            }
+
+            //0-10
+            //11-21
+            GetNextMove();
         }
 
         private void LeftArrow_Click(object sender, RoutedEventArgs e)
@@ -671,6 +746,13 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             // change image (and underlay) - no longer doing underlay
             ////this.imageSource = new DrawingImage(this.drawingGroup) // need to define drawing group for underlay
             Console.WriteLine("left");
+
+            indexOfAngle = indexOfAngle - 22;
+            if(indexOfAngle < 0)
+            {
+                indexOfAngle = 0;
+            }
+            GetNextMove();
         }
     }
 }
