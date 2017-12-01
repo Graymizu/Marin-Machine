@@ -102,6 +102,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         /// </summary>
         private Body[] bodies = null;
 
+        private int bodyIndex = 0;
+
         /// <summary>
         /// definition of bones
         /// </summary>
@@ -363,6 +365,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                     int penIndex = 0;
                     foreach (Body body in this.bodies)
                     {
+                        bodyIndex = bodyIndex % 6;
+
                         Pen drawPen = this.bodyColors[penIndex++];
 
                         if (body.IsTracked)
@@ -393,6 +397,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                             this.DrawHand(body.HandLeftState, jointPoints[JointType.HandLeft], dc);
                             this.DrawHand(body.HandRightState, jointPoints[JointType.HandRight], dc);
                         }
+                        bodyIndex++;
+
                     }
 
                     // prevent drawing outside of our render area
@@ -556,33 +562,33 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         public void CalcAngles()
         {
             //Right Side
-            CameraSpacePoint WristRightP = bodies[0].Joints[JointType.WristRight].Position;
-            CameraSpacePoint ElbowRightP = bodies[0].Joints[JointType.ElbowRight].Position;
-            CameraSpacePoint ShoulderRightP = bodies[0].Joints[JointType.ShoulderRight].Position;
-            CameraSpacePoint HandRightP = bodies[0].Joints[JointType.HandRight].Position;
-            CameraSpacePoint HandTipRightP = bodies[0].Joints[JointType.HandTipRight].Position;
-            CameraSpacePoint HipRightP = bodies[0].Joints[JointType.HipRight].Position;
-            CameraSpacePoint KneeRightP = bodies[0].Joints[JointType.KneeRight].Position;
-            CameraSpacePoint AnkleRightP = bodies[0].Joints[JointType.AnkleRight].Position;
-            CameraSpacePoint FootRightP = bodies[0].Joints[JointType.FootRight].Position;
+            CameraSpacePoint WristRightP = bodies[bodyIndex].Joints[JointType.WristRight].Position;
+            CameraSpacePoint ElbowRightP = bodies[bodyIndex].Joints[JointType.ElbowRight].Position;
+            CameraSpacePoint ShoulderRightP = bodies[bodyIndex].Joints[JointType.ShoulderRight].Position;
+            CameraSpacePoint HandRightP = bodies[bodyIndex].Joints[JointType.HandRight].Position;
+            CameraSpacePoint HandTipRightP = bodies[bodyIndex].Joints[JointType.HandTipRight].Position;
+            CameraSpacePoint HipRightP = bodies[bodyIndex].Joints[JointType.HipRight].Position;
+            CameraSpacePoint KneeRightP = bodies[bodyIndex].Joints[JointType.KneeRight].Position;
+            CameraSpacePoint AnkleRightP = bodies[bodyIndex].Joints[JointType.AnkleRight].Position;
+            CameraSpacePoint FootRightP = bodies[bodyIndex].Joints[JointType.FootRight].Position;
 
             //Center
-            CameraSpacePoint HeadP = bodies[0].Joints[JointType.Head].Position;
-            CameraSpacePoint NeckP = bodies[0].Joints[JointType.Neck].Position;
-            CameraSpacePoint SpineShoulderP = bodies[0].Joints[JointType.SpineShoulder].Position;
-            CameraSpacePoint SpineMidP = bodies[0].Joints[JointType.SpineMid].Position;
-            CameraSpacePoint SpineBaseP = bodies[0].Joints[JointType.SpineBase].Position;
+            CameraSpacePoint HeadP = bodies[bodyIndex].Joints[JointType.Head].Position;
+            CameraSpacePoint NeckP = bodies[bodyIndex].Joints[JointType.Neck].Position;
+            CameraSpacePoint SpineShoulderP = bodies[bodyIndex].Joints[JointType.SpineShoulder].Position;
+            CameraSpacePoint SpineMidP = bodies[bodyIndex].Joints[JointType.SpineMid].Position;
+            CameraSpacePoint SpineBaseP = bodies[bodyIndex].Joints[JointType.SpineBase].Position;
 
             //Left Side
-            CameraSpacePoint WristLeftP = bodies[0].Joints[JointType.WristLeft].Position;
-            CameraSpacePoint ElbowLeftP = bodies[0].Joints[JointType.ElbowLeft].Position;
-            CameraSpacePoint ShoulderLeftP = bodies[0].Joints[JointType.ShoulderLeft].Position;
-            CameraSpacePoint HandLeftP = bodies[0].Joints[JointType.HandLeft].Position;
-            CameraSpacePoint HandTipLeftP = bodies[0].Joints[JointType.HandTipLeft].Position;
-            CameraSpacePoint HipLeftP = bodies[0].Joints[JointType.HipLeft].Position;
-            CameraSpacePoint KneeLeftP = bodies[0].Joints[JointType.KneeLeft].Position;
-            CameraSpacePoint AnkleLeftP = bodies[0].Joints[JointType.AnkleLeft].Position;
-            CameraSpacePoint FootLeftP = bodies[0].Joints[JointType.FootLeft].Position;
+            CameraSpacePoint WristLeftP = bodies[bodyIndex].Joints[JointType.WristLeft].Position;
+            CameraSpacePoint ElbowLeftP = bodies[bodyIndex].Joints[JointType.ElbowLeft].Position;
+            CameraSpacePoint ShoulderLeftP = bodies[bodyIndex].Joints[JointType.ShoulderLeft].Position;
+            CameraSpacePoint HandLeftP = bodies[bodyIndex].Joints[JointType.HandLeft].Position;
+            CameraSpacePoint HandTipLeftP = bodies[bodyIndex].Joints[JointType.HandTipLeft].Position;
+            CameraSpacePoint HipLeftP = bodies[bodyIndex].Joints[JointType.HipLeft].Position;
+            CameraSpacePoint KneeLeftP = bodies[bodyIndex].Joints[JointType.KneeLeft].Position;
+            CameraSpacePoint AnkleLeftP = bodies[bodyIndex].Joints[JointType.AnkleLeft].Position;
+            CameraSpacePoint FootLeftP = bodies[bodyIndex].Joints[JointType.FootLeft].Position;
 
 
             // elbow r angle: 0
