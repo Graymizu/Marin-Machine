@@ -17,6 +17,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
     using System.Windows.Media.Imaging;
     using Microsoft.Kinect;
     using System.Collections;
+    using System.Windows.Controls;
 
     /// <summary>
     /// Interaction logic for MainWindow
@@ -61,7 +62,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         /// <summary>
         /// Brush used for drawing joints that are currently tracked
         /// </summary>
-        private readonly Brush trackedJointBrush = new SolidColorBrush(Color.FromArgb(255, 68, 192, 68));
+        private readonly Brush trackedJointBrush = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
 
         /// <summary>
         /// Brush used for drawing joints that are currently inferred
@@ -103,6 +104,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         /// </summary>
         private Body[] bodies = null;
 
+        private int bodyIndex = 0;
+
         /// <summary>
         /// definition of bones
         /// </summary>
@@ -141,6 +144,10 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         private int indexOfAngle = 0;
 
+        //private int image = 1;
+
+        //private BitmapImage snapshot;
+        //private ImageSource snapshot;
 
 
         /// <summary>
@@ -235,7 +242,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
 
             // get angle data for first move
-            GetNextMove(); 
+            GetNextMove();
+            // get image for first move
+            //GetNextImage(0);
 
 
             // set IsAvailableChanged event notifier
@@ -259,6 +268,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
             // initialize the components (controls) of the window
             this.InitializeComponent();
+
         }
 
         /// <summary>
@@ -277,15 +287,19 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
         }
 
-        public ImageSource Snapshot
+       /* public ImageSource Snapshot
         {
             get
             {
                 //maybe have an array of images
-                return this.ImageSource; // need to change this to image from video of person doing move
+                return this.snapshot; // need to change this to image from video of person doing move
+            }
+            set
+            {
+                this.snapshot = value;
             }
 
-        }
+        }*/
 
         /// <summary>
         /// Gets or sets the current status text to display
@@ -382,6 +396,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                     int penIndex = 0;
                     foreach (Body body in this.bodies)
                     {
+                        bodyIndex = bodyIndex % 6;
                         Pen drawPen = this.bodyColors[penIndex++];
 
                         if (body.IsTracked)
@@ -412,6 +427,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                             this.DrawHand(body.HandLeftState, jointPoints[JointType.HandLeft], dc);
                             this.DrawHand(body.HandRightState, jointPoints[JointType.HandRight], dc);
                         }
+                        bodyIndex++;
                     }
 
                     // prevent drawing outside of our render area
@@ -584,33 +600,33 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         public void CalcAngles()
         {
             //Right Side
-            CameraSpacePoint WristRightP = bodies[0].Joints[JointType.WristRight].Position;
-            CameraSpacePoint ElbowRightP = bodies[0].Joints[JointType.ElbowRight].Position;
-            CameraSpacePoint ShoulderRightP = bodies[0].Joints[JointType.ShoulderRight].Position;
-            CameraSpacePoint HandRightP = bodies[0].Joints[JointType.HandRight].Position;
-            CameraSpacePoint HandTipRightP = bodies[0].Joints[JointType.HandTipRight].Position;
-            CameraSpacePoint HipRightP = bodies[0].Joints[JointType.HipRight].Position;
-            CameraSpacePoint KneeRightP = bodies[0].Joints[JointType.KneeRight].Position;
-            CameraSpacePoint AnkleRightP = bodies[0].Joints[JointType.AnkleRight].Position;
-            CameraSpacePoint FootRightP = bodies[0].Joints[JointType.FootRight].Position;
+            CameraSpacePoint WristRightP = bodies[bodyIndex].Joints[JointType.WristRight].Position;
+            CameraSpacePoint ElbowRightP = bodies[bodyIndex].Joints[JointType.ElbowRight].Position;
+            CameraSpacePoint ShoulderRightP = bodies[bodyIndex].Joints[JointType.ShoulderRight].Position;
+            CameraSpacePoint HandRightP = bodies[bodyIndex].Joints[JointType.HandRight].Position;
+            CameraSpacePoint HandTipRightP = bodies[bodyIndex].Joints[JointType.HandTipRight].Position;
+            CameraSpacePoint HipRightP = bodies[bodyIndex].Joints[JointType.HipRight].Position;
+            CameraSpacePoint KneeRightP = bodies[bodyIndex].Joints[JointType.KneeRight].Position;
+            CameraSpacePoint AnkleRightP = bodies[bodyIndex].Joints[JointType.AnkleRight].Position;
+            CameraSpacePoint FootRightP = bodies[bodyIndex].Joints[JointType.FootRight].Position;
 
             //Center
-            CameraSpacePoint HeadP = bodies[0].Joints[JointType.Head].Position;
-            CameraSpacePoint NeckP = bodies[0].Joints[JointType.Neck].Position;
-            CameraSpacePoint SpineShoulderP = bodies[0].Joints[JointType.SpineShoulder].Position;
-            CameraSpacePoint SpineMidP = bodies[0].Joints[JointType.SpineMid].Position;
-            CameraSpacePoint SpineBaseP = bodies[0].Joints[JointType.SpineBase].Position;
+            CameraSpacePoint HeadP = bodies[bodyIndex].Joints[JointType.Head].Position;
+            CameraSpacePoint NeckP = bodies[bodyIndex].Joints[JointType.Neck].Position;
+            CameraSpacePoint SpineShoulderP = bodies[bodyIndex].Joints[JointType.SpineShoulder].Position;
+            CameraSpacePoint SpineMidP = bodies[bodyIndex].Joints[JointType.SpineMid].Position;
+            CameraSpacePoint SpineBaseP = bodies[bodyIndex].Joints[JointType.SpineBase].Position;
 
             //Left Side
-            CameraSpacePoint WristLeftP = bodies[0].Joints[JointType.WristLeft].Position;
-            CameraSpacePoint ElbowLeftP = bodies[0].Joints[JointType.ElbowLeft].Position;
-            CameraSpacePoint ShoulderLeftP = bodies[0].Joints[JointType.ShoulderLeft].Position;
-            CameraSpacePoint HandLeftP = bodies[0].Joints[JointType.HandLeft].Position;
-            CameraSpacePoint HandTipLeftP = bodies[0].Joints[JointType.HandTipLeft].Position;
-            CameraSpacePoint HipLeftP = bodies[0].Joints[JointType.HipLeft].Position;
-            CameraSpacePoint KneeLeftP = bodies[0].Joints[JointType.KneeLeft].Position;
-            CameraSpacePoint AnkleLeftP = bodies[0].Joints[JointType.AnkleLeft].Position;
-            CameraSpacePoint FootLeftP = bodies[0].Joints[JointType.FootLeft].Position;
+            CameraSpacePoint WristLeftP = bodies[bodyIndex].Joints[JointType.WristLeft].Position;
+            CameraSpacePoint ElbowLeftP = bodies[bodyIndex].Joints[JointType.ElbowLeft].Position;
+            CameraSpacePoint ShoulderLeftP = bodies[bodyIndex].Joints[JointType.ShoulderLeft].Position;
+            CameraSpacePoint HandLeftP = bodies[bodyIndex].Joints[JointType.HandLeft].Position;
+            CameraSpacePoint HandTipLeftP = bodies[bodyIndex].Joints[JointType.HandTipLeft].Position;
+            CameraSpacePoint HipLeftP = bodies[bodyIndex].Joints[JointType.HipLeft].Position;
+            CameraSpacePoint KneeLeftP = bodies[bodyIndex].Joints[JointType.KneeLeft].Position;
+            CameraSpacePoint AnkleLeftP = bodies[bodyIndex].Joints[JointType.AnkleLeft].Position;
+            CameraSpacePoint FootLeftP = bodies[bodyIndex].Joints[JointType.FootLeft].Position;
 
 
             // elbow r angle: 0
@@ -697,8 +713,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
             double userAngle = jointAngles[i];
             double originalAngle = originalAngles[i];
-            userAngle = userAngle / 180;
-            originalAngle = originalAngle /180;
+            userAngle = Math.Abs(userAngle) / 180;
+            originalAngle = Math.Abs(originalAngle) /180;
 
             double diff = Math.Abs(userAngle - originalAngle);
             return 1 / (diff + 1);
@@ -708,7 +724,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         {
             double accuracy = CalculateAccuracy(i);
 
-            double jt = -7 * accuracy + 10;
+            double jt = -9 * accuracy + 12;
             return jt;
         }
 
@@ -724,10 +740,57 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             }
         }
 
+        /*private void GetNextImage(int n)
+        {
+            // read image
+            image = image + n;
+
+            */
+            /*Image snapshot = new Image();
+            snapshot.Width = 100;
+
+            BitmapImage bitmap = new BitmapImage();
+            //this.snapshot = "Images\mmlogo.png";
+            bitmap.BeginInit();
+            bitmap.UriSource = new Uri(Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\..\")) + @"\" + image + ".jpg");
+            bitmap.EndInit();
+
+            snapshot.Source = bitmap;*/
+
+            //var uri = new Uri(@"Images/" + Convert.ToString(image) + ".jpg", UriKind.Relative);
+            //Console.WriteLine(uri.ToString());
+            //snapshot.Image
+            //snapshot.Source = new BitmapImage(new Uri(@"/Images/" + Convert.ToString(image) + ".jpg", UriKind.Relative));
+            /*BitmapImage bitmap = new BitmapImage();
+            this.snapshot = "Images\mmlogo.png";
+            bitmap.BeginInit();
+            bitmap.UriSource = new Uri(Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\..\")) + @"\" + image + ".jpg");
+            bitmap.EndInit();
+            this.snapshot = bitmap;*/
+
+            /*using (var stream = await imageFile.OpenReadAsync())
+            {
+                await bitmap.SetSourceAsync(stream);
+            }*/
+            /*
+            //this.snapshot
+            BitmapImage bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.CacheOption = BitmapCacheOption.None;
+            bitmap.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+            bitmap.UriSource = new Uri(Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\..\")) + @"" + image + ".jpg");
+
+            bitmap.EndInit();
+            Snapshot = new BitmapImage(bitmap.UriSource);
+
+            Console.WriteLine(new Uri(Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\..\")) + @"" + image + ".jpg"));
+            //imagetochange.Source = Snapshot;
+        }*/
+
         private void RightArrow_Click(object sender, RoutedEventArgs e)
         {
             //change image (and underlay) - no longer doing underlay
-            ////this.imageSource = new DrawingImage(this.drawingGroup) // need to define drawing group for underlay
+            //this.imageSource = new DrawingImage(this.drawingGroup) // need to define drawing group for underlay
             Console.WriteLine("right");
             Console.WriteLine(allAngles.Count);
 
@@ -739,6 +802,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             //0-10
             //11-21
             GetNextMove();
+            //GetNextImage(1);
         }
 
         private void LeftArrow_Click(object sender, RoutedEventArgs e)
@@ -753,6 +817,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 indexOfAngle = 0;
             }
             GetNextMove();
+            //GetNextImage(-1);
         }
     }
 }

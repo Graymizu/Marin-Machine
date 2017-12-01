@@ -12,3 +12,17 @@ C:\Users\Anthony\Documents\University of Rochester\Senior\CSC 212 HCI\Project\Bo
 C:\Users\Anthony\Documents\University of Rochester\Senior\CSC 212 HCI\Project\BodyBasics-WPF\obj\Debug\BodyBasics-WPF.csproj.GenerateResource.Cache
 C:\Users\Anthony\Documents\University of Rochester\Senior\CSC 212 HCI\Project\BodyBasics-WPF\obj\Debug\BodyBasics-WPF.exe
 C:\Users\Anthony\Documents\University of Rochester\Senior\CSC 212 HCI\Project\BodyBasics-WPF\obj\Debug\BodyBasics-WPF.pdb
+C:\Users\Samantha\Desktop\Marin-Machine-master\BodyBasics-WPF\bin\AnyCPU\Debug\BodyBasics-WPF.exe.config
+C:\Users\Samantha\Desktop\Marin-Machine-master\BodyBasics-WPF\bin\AnyCPU\Debug\BodyBasics-WPF.exe
+C:\Users\Samantha\Desktop\Marin-Machine-master\BodyBasics-WPF\bin\AnyCPU\Debug\BodyBasics-WPF.pdb
+C:\Users\Samantha\Desktop\Marin-Machine-master\BodyBasics-WPF\obj\Debug\BodyBasics-WPF.csprojResolveAssemblyReference.cache
+C:\Users\Samantha\Desktop\Marin-Machine-master\BodyBasics-WPF\obj\Debug\MainWindow.baml
+C:\Users\Samantha\Desktop\Marin-Machine-master\BodyBasics-WPF\obj\Debug\MainWindow.g.cs
+C:\Users\Samantha\Desktop\Marin-Machine-master\BodyBasics-WPF\obj\Debug\App.g.cs
+C:\Users\Samantha\Desktop\Marin-Machine-master\BodyBasics-WPF\obj\Debug\BodyBasics-WPF_MarkupCompile.cache
+C:\Users\Samantha\Desktop\Marin-Machine-master\BodyBasics-WPF\obj\Debug\BodyBasics-WPF.g.resources
+C:\Users\Samantha\Desktop\Marin-Machine-master\BodyBasics-WPF\obj\Debug\Microsoft.Samples.Kinect.BodyBasics.Properties.Resources.resources
+C:\Users\Samantha\Desktop\Marin-Machine-master\BodyBasics-WPF\obj\Debug\BodyBasics-WPF.csproj.GenerateResource.Cache
+C:\Users\Samantha\Desktop\Marin-Machine-master\BodyBasics-WPF\obj\Debug\BodyBasics-WPF.csproj.CoreCompileInputs.cache
+C:\Users\Samantha\Desktop\Marin-Machine-master\BodyBasics-WPF\obj\Debug\BodyBasics-WPF.exe
+C:\Users\Samantha\Desktop\Marin-Machine-master\BodyBasics-WPF\obj\Debug\BodyBasics-WPF.pdb
