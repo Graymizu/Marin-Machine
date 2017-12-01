@@ -730,14 +730,22 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         private void GetNextMove()
         {
-            for (int i = 0; i < 11; i++)
+            if (kinectSensor.IsAvailable)
             {
+                for (int i = 0; i < 11; i++)
+                {
                 originalAngles[i] = Convert.ToDouble(allAngles[indexOfAngle]);
                 Console.WriteLine(indexOfAngle);
                 Console.WriteLine(originalAngles[i]);
                 indexOfAngle++;
 
+                }
             }
+            else
+            {
+                Console.WriteLine("The Kinect is currently not being used");
+            }
+           
         }
 
         /*private void GetNextImage(int n)
