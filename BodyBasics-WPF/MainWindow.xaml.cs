@@ -143,11 +143,9 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         ArrayList allAngles = new ArrayList();
 
         private int indexOfAngle = 0;
+        private int indexOfImage = 0;
 
-        //private int image = 1;
-
-        //private BitmapImage snapshot;
-        //private ImageSource snapshot;
+        private string FindUri = "Images/0.jpg";
 
 
         /// <summary>
@@ -748,69 +746,49 @@ namespace Microsoft.Samples.Kinect.BodyBasics
            
         }
 
-        /*private void GetNextImage(int n)
+        private void GetNextImage()
         {
             // read image
-            image = image + n;
 
-            */
-            /*Image snapshot = new Image();
-            snapshot.Width = 100;
+            BitmapImage bit = new BitmapImage();
+            bit.BeginInit();
+            bit.UriSource = new Uri("Images/"+indexOfImage.ToString()+".jpg", UriKind.Relative);
+            bit.EndInit();
+            Display.Source = bit;
 
-            BitmapImage bitmap = new BitmapImage();
-            //this.snapshot = "Images\mmlogo.png";
-            bitmap.BeginInit();
-            bitmap.UriSource = new Uri(Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\..\")) + @"\" + image + ".jpg");
-            bitmap.EndInit();
-
-            snapshot.Source = bitmap;*/
-
-            //var uri = new Uri(@"Images/" + Convert.ToString(image) + ".jpg", UriKind.Relative);
-            //Console.WriteLine(uri.ToString());
-            //snapshot.Image
-            //snapshot.Source = new BitmapImage(new Uri(@"/Images/" + Convert.ToString(image) + ".jpg", UriKind.Relative));
-            /*BitmapImage bitmap = new BitmapImage();
-            this.snapshot = "Images\mmlogo.png";
-            bitmap.BeginInit();
-            bitmap.UriSource = new Uri(Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\..\")) + @"\" + image + ".jpg");
-            bitmap.EndInit();
-            this.snapshot = bitmap;*/
-
-            /*using (var stream = await imageFile.OpenReadAsync())
-            {
-                await bitmap.SetSourceAsync(stream);
-            }*/
-            /*
-            //this.snapshot
-            BitmapImage bitmap = new BitmapImage();
-            bitmap.BeginInit();
-            bitmap.CacheOption = BitmapCacheOption.None;
-            bitmap.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
-            bitmap.UriSource = new Uri(Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\..\")) + @"" + image + ".jpg");
-
-            bitmap.EndInit();
-            Snapshot = new BitmapImage(bitmap.UriSource);
-
-            Console.WriteLine(new Uri(Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\..\")) + @"" + image + ".jpg"));
-            //imagetochange.Source = Snapshot;
-        }*/
+        }
 
         private void RightArrow_Click(object sender, RoutedEventArgs e)
         {
+
             //change image (and underlay) - no longer doing underlay
             //this.imageSource = new DrawingImage(this.drawingGroup) // need to define drawing group for underlay
+
             Console.WriteLine("right");
             Console.WriteLine(allAngles.Count);
+            Console.WriteLine(indexOfImage.ToString());
 
             if(indexOfAngle >= allAngles.Count)
             {
                 indexOfAngle = indexOfAngle - 11;
             }
 
+            indexOfImage++;
+            string im = (Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\..\BodyBasics-WPF\Images\" + indexOfImage.ToString()+".jpg")));
+            Console.WriteLine(indexOfImage.ToString());
+            Console.WriteLine(im.ToString());
+
+            if (!File.Exists(im))
+            {
+                indexOfImage--;
+                Console.WriteLine("Does not exist");
+                Console.WriteLine(indexOfImage.ToString());
+            }
+           
             //0-10
             //11-21
             GetNextMove();
-            //GetNextImage(1);
+            GetNextImage();
         }
 
         private void LeftArrow_Click(object sender, RoutedEventArgs e)
@@ -824,8 +802,22 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             {
                 indexOfAngle = 0;
             }
+
+            indexOfImage--;
+            string im = (Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\..\BodyBasics-WPF\Images\" + indexOfImage.ToString() + ".jpg")));
+            Console.WriteLine(indexOfImage.ToString());
+            Console.WriteLine(im.ToString());
+
+            if (!File.Exists(im))
+            {
+                indexOfImage++;
+                Console.WriteLine("Does not exist");
+                Console.WriteLine(indexOfImage.ToString());
+            }
+
             GetNextMove();
-            //GetNextImage(-1);
+            GetNextImage();
         }
     }
+
 }
