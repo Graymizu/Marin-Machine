@@ -722,7 +722,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         {
             double accuracy = CalculateAccuracy(i);
 
-            double jt = -9 * accuracy + 12;
+            double jt = -22 * accuracy + 25;
             return jt;
         }
 
