@@ -143,7 +143,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         ArrayList allAngles = new ArrayList();
 
         private int indexOfAngle = 0;
-        private int indexOfImage = 0;
+        private int indexOfImage = 1;
 
         private string FindUri = "Images/0.jpg";
 
@@ -236,13 +236,13 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 //string angle = (File.ReadAllLines(Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\..\")) + @"\DanceData.txt").CopyTo(originalAngles,0));
                 string angle = sr.ReadLine();
                 allAngles.Add(angle);
-                Console.WriteLine(angle);
+                Console.WriteLine("read ange LINE "+angle);
             }
 
             // get angle data for first move
             GetNextMove();
             // get image for first move
-            //GetNextImage(0);
+            //GetNextImage();
 
 
             // set IsAvailableChanged event notifier
@@ -728,21 +728,21 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         private void GetNextMove()
         {
-            if (kinectSensor.IsAvailable)
-            {
+           
                 for (int i = 0; i < 11; i++)
                 {
                 originalAngles[i] = Convert.ToDouble(allAngles[indexOfAngle]);
-                Console.WriteLine(indexOfAngle);
-                Console.WriteLine(originalAngles[i]);
+                    //Console.WriteLine(indexOfAngle);
+                    //Console.WriteLine(originalAngles[i]);
+                    if (i == 0)
+                    {
+                        int y = indexOfAngle / 11;
+                        Console.WriteLine("Getting the move for angle: "+ (y+1));
+                    }
                 indexOfAngle++;
 
                 }
-            }
-            else
-            {
-                Console.WriteLine("The Kinect is currently not being used");
-            }
+            
            
         }
 
@@ -764,7 +764,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             //change image (and underlay) - no longer doing underlay
             //this.imageSource = new DrawingImage(this.drawingGroup) // need to define drawing group for underlay
 
-            Console.WriteLine("right");
+            Console.WriteLine("right button PRESSED");
             Console.WriteLine(allAngles.Count);
             Console.WriteLine(indexOfImage.ToString());
 
@@ -775,14 +775,15 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
             indexOfImage++;
             string im = (Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\..\BodyBasics-WPF\Images\" + indexOfImage.ToString()+".jpg")));
-            Console.WriteLine(indexOfImage.ToString());
-            Console.WriteLine(im.ToString());
+            Console.WriteLine("Angle Index #" + indexOfAngle.ToString());
+            Console.WriteLine("to Image #" + indexOfImage.ToString());
+            Console.WriteLine("which calls the image path: " + im.ToString());
 
             if (!File.Exists(im))
             {
                 indexOfImage--;
-                Console.WriteLine("Does not exist");
-                Console.WriteLine(indexOfImage.ToString());
+                Console.WriteLine("-----Does not exist-----");
+                Console.WriteLine("so BACK to image #" + indexOfImage.ToString() + "....");
             }
            
             //0-10
@@ -795,7 +796,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         {
             // change image (and underlay) - no longer doing underlay
             ////this.imageSource = new DrawingImage(this.drawingGroup) // need to define drawing group for underlay
-            Console.WriteLine("left");
+            Console.WriteLine("left button PRESSED");
 
             indexOfAngle = indexOfAngle - 22;
             if(indexOfAngle < 0)
@@ -805,14 +806,15 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
             indexOfImage--;
             string im = (Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\..\BodyBasics-WPF\Images\" + indexOfImage.ToString() + ".jpg")));
-            Console.WriteLine(indexOfImage.ToString());
-            Console.WriteLine(im.ToString());
+            Console.WriteLine("Angle Index #"+indexOfAngle.ToString());
+            Console.WriteLine("to Image #"+indexOfImage.ToString());
+            Console.WriteLine("which calls the image path: "+im.ToString());
 
             if (!File.Exists(im))
             {
                 indexOfImage++;
-                Console.WriteLine("Does not exist");
-                Console.WriteLine(indexOfImage.ToString());
+                Console.WriteLine("-----Does not exist-----");
+                Console.WriteLine("so BACK to image #"+indexOfImage.ToString()+"....");
             }
 
             GetNextMove();
